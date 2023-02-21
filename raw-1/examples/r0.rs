@@ -32,9 +32,9 @@ fn step_01() -> Result<(), Box<dyn std::error::Error>> {
         );
     }
 
-    let f0 = exif.get_field(
-        exif::Tag::DateTimeDigitized,
-    exif::In::PRIMARY).unwrap();
+    let f0 = exif
+        .get_field(exif::Tag::DateTimeDigitized, exif::In::PRIMARY)
+        .unwrap();
 
     println!("-- PART-3 --");
     println!("{}", f0.display_value().with_unit(&exif));
@@ -42,6 +42,16 @@ fn step_01() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>>{
-    step_01()
+fn step_02() -> Result<(), Box<dyn std::error::Error>> {
+    println!("-- PART-4 --");
+    let exif = rexif::parse_file("A.ARW")?;
+    for entry in &exif.entries {
+        println!("{}: {}", entry.tag, entry.value_more_readable);
+    }
+    Ok(())
+}
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    step_01()?;
+    step_02()
 }
